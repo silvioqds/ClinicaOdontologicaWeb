@@ -1,0 +1,81 @@
+﻿@model ClinicaOdontologica.Desfalcados.Models.Paciente
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h3>Deseja realmente excluir este registro?</h3>
+<div>
+    <h4>Paciente</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NOME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CPF)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CPF)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOME_MAE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOME_MAE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOME_PAI)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOME_PAI)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IDADE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IDADE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GENERO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GENERO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Convenio.CONVENIO1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Convenio.CONVENIO1)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Voltar", "Index")
+        </div>
+    }
+</div>

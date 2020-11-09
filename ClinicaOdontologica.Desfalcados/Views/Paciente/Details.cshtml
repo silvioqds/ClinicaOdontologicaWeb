@@ -1,0 +1,75 @@
+﻿@model ClinicaOdontologica.Desfalcados.Models.Paciente
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Paciente</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NOME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CPF)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CPF)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOME_MAE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOME_MAE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOME_PAI)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOME_PAI)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IDADE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IDADE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GENERO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GENERO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Convenio.CONVENIO1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Convenio.CONVENIO1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_PACIENTE }) |
+    @Html.ActionLink("Voltar", "Index")
+</p>

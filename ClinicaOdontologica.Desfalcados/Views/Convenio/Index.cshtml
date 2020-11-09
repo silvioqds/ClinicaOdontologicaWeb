@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ClinicaOdontologica.Desfalcados.Models.Convenio>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<p>
+    <button class="btn btn-light">@Html.ActionLink("Adicionar Novo", "Create")</button>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Convênio")
+        </th>
+        <th>
+            @Html.DisplayName("Valor Desconto")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CONVENIO1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VALOR_DESCONTO)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.ID_CONVENIO }) |         
+            @Html.ActionLink("Excluir", "Delete", new { id=item.ID_CONVENIO })
+        </td>
+    </tr>
+}
+
+</table>

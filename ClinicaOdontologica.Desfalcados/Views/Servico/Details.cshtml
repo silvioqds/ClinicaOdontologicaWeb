@@ -1,0 +1,43 @@
+﻿@model ClinicaOdontologica.Desfalcados.Models.Servico
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Servico</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SERVICO1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SERVICO1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VALOR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VALOR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Especializacao.ESPECIALIZACAO1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Especializacao.ESPECIALIZACAO1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_SERVICO }) |
+    @Html.ActionLink("Voltar", "Index")
+</p>

@@ -1,0 +1,83 @@
+﻿@model ClinicaOdontologica.Desfalcados.Models.Agendamento
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Agendamento</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DT_HORA_ATENDIMENTO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DT_HORA_ATENDIMENTO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DT_INCLUSAO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DT_INCLUSAO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FL_CANCELADO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FL_CANCELADO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOTIVO_CANCELAMENTO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOTIVO_CANCELAMENTO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VL_ATENDIMENTO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VL_ATENDIMENTO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Funcionario.NOME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Funcionario.NOME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente.NOME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente.NOME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Servico.SERVICO1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Servico.SERVICO1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_AGENDAMENTO }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

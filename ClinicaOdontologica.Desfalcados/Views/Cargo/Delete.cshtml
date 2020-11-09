@@ -1,0 +1,58 @@
+﻿@model ClinicaOdontologica.Desfalcados.Models.Cargo
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h3>Deseja realmente excluir este registro?</h3>
+<div>
+    <h4>Cargo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VL_SALARIO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VL_SALARIO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FL_DENTISTA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FL_DENTISTA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Especializacao.ESPECIALIZACAO1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Especializacao.ESPECIALIZACAO1)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

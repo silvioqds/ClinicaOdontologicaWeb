@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ClinicaOdontologica.Desfalcados.Models.Cargo>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<p>
+    <button class="btn btn-light">@Html.ActionLink("Adicionar Novo", "Create")</button>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Cargo")
+        </th>
+        <th>
+            @Html.DisplayName("Valor Salário")
+        </th>
+        <th>
+            @Html.DisplayName("Cargo Odontológico")
+        </th>
+        <th>
+            @Html.DisplayName("Especialização")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VL_SALARIO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FL_DENTISTA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Especializacao.ESPECIALIZACAO1)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id = item.ID_CARGO }) |
+            @Html.ActionLink("Excluir", "Delete", new { id = item.ID_CARGO })
+        </td>
+    </tr>
+}
+
+</table>

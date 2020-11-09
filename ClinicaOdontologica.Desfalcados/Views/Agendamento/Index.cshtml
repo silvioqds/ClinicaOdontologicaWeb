@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ClinicaOdontologica.Desfalcados.Models.Agendamento>
+
+@{
+    ViewBag.Title = "Agendamento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p>
+    <button class="btn btn-light">@Html.ActionLink("Adicionar Novo", "Create")</button>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Nome Paciente")
+        </th>
+        <th>
+            @Html.DisplayName("Data Atendimento")
+        </th>
+        <th>
+            @Html.DisplayName("Doutor")
+        </th>
+        <th>
+            @Html.DisplayName("Serviço")
+        </th>
+        <th>
+            @Html.DisplayName("Valor")
+        </th>
+        <th>
+            @Html.DisplayName("Data de Inclusão")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Paciente.NOME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DT_HORA_ATENDIMENTO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Funcionario.NOME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Servico.SERVICO1)
+            </td>
+            <td>
+               R$ @Html.DisplayFor(modelItem => item.VL_ATENDIMENTO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DT_INCLUSAO)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.ID_AGENDAMENTO }) |              
+                @Html.ActionLink("Excluir", "Delete", new { id = item.ID_AGENDAMENTO })
+            </td>
+        </tr>
+    }
+
+</table>

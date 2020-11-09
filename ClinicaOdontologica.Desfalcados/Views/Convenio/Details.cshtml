@@ -1,0 +1,35 @@
+﻿@model ClinicaOdontologica.Desfalcados.Models.Convenio
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Convenio</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CONVENIO1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CONVENIO1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VALOR_DESCONTO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VALOR_DESCONTO)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID_CONVENIO }) |
+    @Html.ActionLink("Voltar", "Index")
+</p>

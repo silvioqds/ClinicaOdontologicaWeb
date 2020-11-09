@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ClinicaOdontologica.Desfalcados.Models.Funcionario>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p>
+    <button class="btn btn-light">@Html.ActionLink("Adicionar Novo", "Create")</button>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Nome")
+        </th>
+        <th>
+            @Html.DisplayName("Cargo")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CPF)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CRO)
+        </th>
+        <th>
+            @Html.DisplayName("Gênero")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cargo.NOME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CPF)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CRO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SEXO)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.ID_FUNCIONARIO }) |        
+            @Html.ActionLink("Excluir", "Delete", new { id=item.ID_FUNCIONARIO })
+        </td>
+    </tr>
+}
+
+</table>

@@ -26,5 +26,12 @@ namespace ClinicaOdontologica.Desfalcados.Models
         }
     
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Agendamento> Agendamento { get; set; }
+        public virtual DbSet<Cargo> Cargo { get; set; }
+        public virtual DbSet<Convenio> Convenio { get; set; }
+        public virtual DbSet<Especializacao> Especializacao { get; set; }
+        public virtual DbSet<Funcionario> Funcionario { get; set; }
+        public virtual DbSet<Paciente> Paciente { get; set; }
+        public virtual DbSet<Servico> Servico { get; set; }
     }
 }

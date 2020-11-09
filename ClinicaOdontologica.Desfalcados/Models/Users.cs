@@ -17,7 +17,7 @@ namespace ClinicaOdontologica.Desfalcados.Models
         public int UsuarioID { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public Nullable<bool> active { get; set; }
+        public bool active { get; set; }
         public System.DateTime DateADD { get; set; }
         public int UserADD { get; set; }
         public Nullable<System.DateTime> DateDelete { get; set; }

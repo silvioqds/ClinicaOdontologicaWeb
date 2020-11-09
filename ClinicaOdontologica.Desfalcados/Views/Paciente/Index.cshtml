@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ClinicaOdontologica.Desfalcados.Models.Paciente>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<p>
+    <button class="btn btn-light">@Html.ActionLink("Adicionar Novo", "Create")</button>
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Nome")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CPF)
+        </th>
+        <th>
+            @Html.DisplayName("Nome Mãe")
+        </th>
+        <th>
+            @Html.DisplayName("Nome Pai")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IDADE)
+        </th>
+        <th>
+            @Html.DisplayName("Gênero")
+        </th>
+        <th>
+            @Html.DisplayName("Convênio")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NOME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CPF)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NOME_MAE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NOME_PAI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IDADE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GENERO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Convenio.CONVENIO1)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.ID_PACIENTE }) |
+                @Html.ActionLink("Excluir", "Delete", new { id = item.ID_PACIENTE })
+            </td>
+        </tr>
+    }
+
+</table>
+

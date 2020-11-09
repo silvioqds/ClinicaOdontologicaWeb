@@ -1,0 +1,94 @@
+﻿@model ClinicaOdontologica.Desfalcados.Models.Agendamento
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Agendamento</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Data Atendimento", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                <input type="datetime-local" id="DT_HORA_ATENDIMENTO" name="DT_HORA_ATENDIMENTO" class="form-control" />
+                @*@Html.(model => model.DT_HORA_ATENDIMENTO, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.DT_HORA_ATENDIMENTO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.Label("Paciente", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.DropDownList("ID_PACIENTE", (SelectList)ViewBag.ID_PACIENTE, "-- Selecione --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ID_PACIENTE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Serviço", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.DropDownList("ID_SERVICO", (SelectList)ViewBag.ID_SERVICO, "-- Selecione --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ID_SERVICO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Dentista", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                <select id="ID_FUNCIONARIO" name="ID_FUNCIONARIO" class="form-control">
+
+                </select>
+                @Html.ValidationMessageFor(model => model.ID_FUNCIONARIO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" id="gerar_orcamento" value="Gerar Orçamento" class="btn btn-info" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Detalhamento Orçamento:", htmlAttributes: new { @class = "control-label col-md-5" })
+            <div class="col-md-10">
+                <textarea id="orcamento" name="orcamento" cols="40" rows="8" disabled></textarea>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.Label("Valor Atendimento", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.EditorFor(model => model.VL_ATENDIMENTO, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.VL_ATENDIMENTO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
+<div>
+    @Html.ActionLink("Voltar", "Index")
+</div>

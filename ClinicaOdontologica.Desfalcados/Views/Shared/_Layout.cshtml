@@ -1,43 +1,236 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Meu Aplicativo ASP.NET</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin - Dashboard</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="~/Content/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="~/Content/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <link href="~/Content/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="~/Content/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="~/Content/css/sb-admin.css" rel="stylesheet">
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/inputmask")
+
+
+    <style>
+        textarea {
+            padding: 15px;
+            box-sizing: border-box;
+            line-height: inherit;
+        }
+    </style>
+    <script type="text/javascript">
+        jQuery(function ($) {
+
+            $("#CPF").inputmask("mask", { "mask": "999.999.999-99" }, { reverse: true });
+
+
+            $("#FL_CANCELADO").change(function () {
+
+                if (this.checked) {
+
+                    $("#MOTIVO_CANCELAMENTO").prop("disabled", false);
+                } else {
+                    $("#MOTIVO_CANCELAMENTO").prop("disabled", true);
+                }
+            });
+
+            $("#ID_SERVICO").change(function () {
+                var id = $("select#ID_SERVICO").val();
+                console.log(id);
+
+                $.ajax({
+                    url: "/Agendamento/DoutoresPorServico/" + id,
+                    success: function (data) {
+                        $("#ID_FUNCIONARIO").empty();
+                        $("#ID_FUNCIONARIO").append('<option value>Selecione...</option>');
+                        $.each(data, function (index, element) {
+                            $("#ID_FUNCIONARIO").append('<option value="' + element.ID_FUNCIONARIO + '">' + element.NOME + '</option>');
+                        });
+                        $("#ID_FUNCIONARIO").prop("disabled", false);
+                    }
+                });
+            });
+
+            $("#gerar_orcamento").click(function () {
+                var ID_S = $("select#ID_SERVICO").val();
+                var ID_P = $("select#ID_PACIENTE").val();
+
+                console.log(ID_S);
+
+                if (ID_S == "" || ID_P == "") {
+                    alert("Preencha todos os campos!");
+                    return;
+                }
+
+                $.ajax({
+                    url: "/Agendamento/GetConvenioServicoValor?ID_SERVICO=" + ID_S + "&ID_PACIENTE=" + ID_P,
+                    success: function (data) {
+
+
+                        $.each(data, function (index, element) {
+                            var i = 0;
+
+                            var nome_convenio = element.CONVENIO[i].CONVENIO;
+                            var valor_desconto = element.CONVENIO[i].VALOR_DESCONTO;
+                            var valor_servico = element.SERVICO[i].VALOR_SERVICO;
+
+                            var valor_final = valor_servico - valor_desconto;
+
+                            if (valor_desconto > valor_servico) {
+                                valor_final = "Gratuidade pelo convênio";
+                                $("#VL_ATENDIMENTO").val(0);
+                            } else {
+                                $("#VL_ATENDIMENTO").val(valor_final)
+                            }
+
+                            var txt = "------------------------------" + "\n";
+
+                            txt += "Convênio: " + nome_convenio + "\n";
+                            txt += "Valor Serviço: R$" + valor_servico + ",00" + "\n";
+                            txt += "Valor Desconto: R$ " + valor_desconto + ",00" + "\n";
+                            txt += "Valor Final: R$" + valor_final + ",00" + "\n";
+
+                            txt += txt = "------------------------------" + "\n";
+
+                            $("#orcamento").val(txt);
+
+                            i++;
+                        });
+
+                        $("#ID_FUNCIONARIO").prop("disabled", false);
+                    }
+                });
+            });
+        });
+
+
+    </script>
+
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Nome do aplicativo", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+<body id="page-top">
+
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+        <a class="navbar-brand mr-1" href="index.html">Usuário Logado:  @User.Identity.Name.ToUpper()</a>
+    </nav>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="sidebar navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="@Url.Action("Index","Home")">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index","Agendamento")">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Agendamentos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index","Paciente")">
+                    <i class="fas fa-fw fa-clinic-medical"></i>
+                    <span>Pacientes</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index","Funcionario")">
+                    <i class="fas fa-fw fa-user-circle"></i>
+                    <span>Funcionários</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index","Servico")">
+                    <i class="fas fa-fw fa-server"></i>
+                    <span>Serviços</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index","Convenio")">
+                    <i class="fas fa-fw fa-book-medical"></i>
+                    <span>Convênios</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index","Cargo")" ">
+                    <i class="fas fa-fw fa-address-book"></i>
+                    <span>Cargos</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index","Users")" ">
+                    <i class="fas fa-fw fa-users-cog"></i>
+                    <span>Usuários</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Logout","Login")" ">
+                    <i class="fas fa-fw fa-power-off"></i>
+                    <span>Encerrar Sessão</span>
+                </a>
+            </li>
+
+        </ul>
+
+        <div id="content-wrapper">
+
+            <div class="container-fluid">
+
+                <div class="container body-content">
+                    @RenderBody()
+                    <hr />
+                    <footer>
+                        <p>
+                            &copy; @DateTime.Now.Year - DentalCompany Brasil Atividades de Internet, Ltda.
+                            Todos os direitos reservados.
+                        </p>
+                    </footer>
+                </div>
+
+
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Início", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Sobre", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contato", "Contact", "Home")</li>
-                </ul>
-            </div>
+
+
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Desfalcados Software</p>
-        </footer>
-    </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+
+
+
+
+
+
+
+
+
+    <!-- Custom scripts for all pages-->
+    <script src="~/Content/js/sb-admin.min.js"></script>
 </body>
 </html>

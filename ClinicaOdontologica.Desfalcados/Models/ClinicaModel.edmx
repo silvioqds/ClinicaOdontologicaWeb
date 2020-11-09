@@ -4,7 +4,79 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="clinicaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="clinicaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Agendamento">
+          <Key>
+            <PropertyRef Name="ID_AGENDAMENTO" />
+          </Key>
+          <Property Name="ID_AGENDAMENTO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DT_HORA_ATENDIMENTO" Type="datetime" Nullable="false" />
+          <Property Name="DT_INCLUSAO" Type="datetime" Nullable="false" />
+          <Property Name="FL_CANCELADO" Type="bit" />
+          <Property Name="MOTIVO_CANCELAMENTO" Type="varchar" MaxLength="50" />
+          <Property Name="VL_ATENDIMENTO" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ID_PACIENTE" Type="int" />
+          <Property Name="ID_SERVICO" Type="int" />
+          <Property Name="ID_FUNCIONARIO" Type="int" />
+        </EntityType>
+        <EntityType Name="Cargo">
+          <Key>
+            <PropertyRef Name="ID_CARGO" />
+          </Key>
+          <Property Name="ID_CARGO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="VL_SALARIO" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="FL_DENTISTA" Type="bit" Nullable="false" />
+          <Property Name="ID_ESPECIALIZACAO" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Convenio">
+          <Key>
+            <PropertyRef Name="ID_CONVENIO" />
+          </Key>
+          <Property Name="ID_CONVENIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CONVENIO" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="VALOR_DESCONTO" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Especializacao">
+          <Key>
+            <PropertyRef Name="ID_ESPECIALIZACAO" />
+          </Key>
+          <Property Name="ID_ESPECIALIZACAO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ESPECIALIZACAO" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Funcionario">
+          <Key>
+            <PropertyRef Name="ID_FUNCIONARIO" />
+          </Key>
+          <Property Name="ID_FUNCIONARIO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID_CARGO" Type="int" Nullable="false" />
+          <Property Name="CPF" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="CRO" Type="varchar" MaxLength="11" />
+          <Property Name="SEXO" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="ID_PACIENTE" />
+          </Key>
+          <Property Name="ID_PACIENTE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NOME" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CPF" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="NOME_MAE" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NOME_PAI" Type="varchar" MaxLength="50" />
+          <Property Name="IDADE" Type="int" Nullable="false" />
+          <Property Name="GENERO" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="ID_CONVENIO" Type="int" />
+        </EntityType>
+        <EntityType Name="Servico">
+          <Key>
+            <PropertyRef Name="ID_SERVICO" />
+          </Key>
+          <Property Name="ID_SERVICO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SERVICO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="VALOR" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ID_ESPECIALIZACAO" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="UsuarioID" />
@@ -18,11 +90,129 @@
           <Property Name="DateDelete" Type="datetime" />
           <Property Name="UserDelete" Type="int" />
         </EntityType>
+        <Association Name="FK_Agendamento_Funcionario">
+          <End Role="Funcionario" Type="Self.Funcionario" Multiplicity="0..1" />
+          <End Role="Agendamento" Type="Self.Agendamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Funcionario">
+              <PropertyRef Name="ID_FUNCIONARIO" />
+            </Principal>
+            <Dependent Role="Agendamento">
+              <PropertyRef Name="ID_FUNCIONARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agendamento_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="0..1" />
+          <End Role="Agendamento" Type="Self.Agendamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="ID_PACIENTE" />
+            </Principal>
+            <Dependent Role="Agendamento">
+              <PropertyRef Name="ID_PACIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agendamento_Servico">
+          <End Role="Servico" Type="Self.Servico" Multiplicity="0..1" />
+          <End Role="Agendamento" Type="Self.Agendamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servico">
+              <PropertyRef Name="ID_SERVICO" />
+            </Principal>
+            <Dependent Role="Agendamento">
+              <PropertyRef Name="ID_SERVICO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cargo_Especializacao">
+          <End Role="Especializacao" Type="Self.Especializacao" Multiplicity="1" />
+          <End Role="Cargo" Type="Self.Cargo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Especializacao">
+              <PropertyRef Name="ID_ESPECIALIZACAO" />
+            </Principal>
+            <Dependent Role="Cargo">
+              <PropertyRef Name="ID_ESPECIALIZACAO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Funcionario_Cargo">
+          <End Role="Cargo" Type="Self.Cargo" Multiplicity="1" />
+          <End Role="Funcionario" Type="Self.Funcionario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cargo">
+              <PropertyRef Name="ID_CARGO" />
+            </Principal>
+            <Dependent Role="Funcionario">
+              <PropertyRef Name="ID_CARGO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paciente_Convenio">
+          <End Role="Convenio" Type="Self.Convenio" Multiplicity="0..1" />
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Convenio">
+              <PropertyRef Name="ID_CONVENIO" />
+            </Principal>
+            <Dependent Role="Paciente">
+              <PropertyRef Name="ID_CONVENIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICO_ESPECIALIZACAO">
+          <End Role="Especializacao" Type="Self.Especializacao" Multiplicity="1" />
+          <End Role="Servico" Type="Self.Servico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Especializacao">
+              <PropertyRef Name="ID_ESPECIALIZACAO" />
+            </Principal>
+            <Dependent Role="Servico">
+              <PropertyRef Name="ID_ESPECIALIZACAO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="clinicaModelStoreContainer">
+          <EntitySet Name="Agendamento" EntityType="Self.Agendamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cargo" EntityType="Self.Cargo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Convenio" EntityType="Self.Convenio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Especializacao" EntityType="Self.Especializacao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Funcionario" EntityType="Self.Funcionario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Servico" EntityType="Self.Servico" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Agendamento_Funcionario" Association="Self.FK_Agendamento_Funcionario">
+            <End Role="Funcionario" EntitySet="Funcionario" />
+            <End Role="Agendamento" EntitySet="Agendamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agendamento_Paciente" Association="Self.FK_Agendamento_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Agendamento" EntitySet="Agendamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agendamento_Servico" Association="Self.FK_Agendamento_Servico">
+            <End Role="Servico" EntitySet="Servico" />
+            <End Role="Agendamento" EntitySet="Agendamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cargo_Especializacao" Association="Self.FK_Cargo_Especializacao">
+            <End Role="Especializacao" EntitySet="Especializacao" />
+            <End Role="Cargo" EntitySet="Cargo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Funcionario_Cargo" Association="Self.FK_Funcionario_Cargo">
+            <End Role="Cargo" EntitySet="Cargo" />
+            <End Role="Funcionario" EntitySet="Funcionario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paciente_Convenio" Association="Self.FK_Paciente_Convenio">
+            <End Role="Convenio" EntitySet="Convenio" />
+            <End Role="Paciente" EntitySet="Paciente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICO_ESPECIALIZACAO" Association="Self.FK_SERVICO_ESPECIALIZACAO">
+            <End Role="Especializacao" EntitySet="Especializacao" />
+            <End Role="Servico" EntitySet="Servico" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="clinicaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -41,7 +231,212 @@
         </EntityType>
         <EntityContainer Name="ClinicaEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Agendamento" EntityType="clinicaModel.Agendamento" />
+          <EntitySet Name="Cargo" EntityType="clinicaModel.Cargo" />
+          <EntitySet Name="Convenio" EntityType="clinicaModel.Convenio" />
+          <EntitySet Name="Especializacao" EntityType="clinicaModel.Especializacao" />
+          <EntitySet Name="Funcionario" EntityType="clinicaModel.Funcionario" />
+          <EntitySet Name="Paciente" EntityType="clinicaModel.Paciente" />
+          <EntitySet Name="Servico" EntityType="clinicaModel.Servico" />
+          <AssociationSet Name="FK_Agendamento_Funcionario" Association="clinicaModel.FK_Agendamento_Funcionario">
+            <End Role="Funcionario" EntitySet="Funcionario" />
+            <End Role="Agendamento" EntitySet="Agendamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agendamento_Paciente" Association="clinicaModel.FK_Agendamento_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Agendamento" EntitySet="Agendamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agendamento_Servico" Association="clinicaModel.FK_Agendamento_Servico">
+            <End Role="Servico" EntitySet="Servico" />
+            <End Role="Agendamento" EntitySet="Agendamento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cargo_Especializacao" Association="clinicaModel.FK_Cargo_Especializacao">
+            <End Role="Especializacao" EntitySet="Especializacao" />
+            <End Role="Cargo" EntitySet="Cargo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paciente_Convenio" Association="clinicaModel.FK_Paciente_Convenio">
+            <End Role="Convenio" EntitySet="Convenio" />
+            <End Role="Paciente" EntitySet="Paciente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SERVICO_ESPECIALIZACAO" Association="clinicaModel.FK_SERVICO_ESPECIALIZACAO">
+            <End Role="Especializacao" EntitySet="Especializacao" />
+            <End Role="Servico" EntitySet="Servico" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Funcionario_Cargo" Association="clinicaModel.FK_Funcionario_Cargo">
+            <End Role="Cargo" EntitySet="Cargo" />
+            <End Role="Funcionario" EntitySet="Funcionario" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Agendamento">
+          <Key>
+            <PropertyRef Name="ID_AGENDAMENTO" />
+          </Key>
+          <Property Name="ID_AGENDAMENTO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DT_HORA_ATENDIMENTO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DT_INCLUSAO" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FL_CANCELADO" Type="Boolean" />
+          <Property Name="MOTIVO_CANCELAMENTO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VL_ATENDIMENTO" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ID_PACIENTE" Type="Int32" />
+          <Property Name="ID_SERVICO" Type="Int32" />
+          <Property Name="ID_FUNCIONARIO" Type="Int32" />
+          <NavigationProperty Name="Funcionario" Relationship="clinicaModel.FK_Agendamento_Funcionario" FromRole="Agendamento" ToRole="Funcionario" />
+          <NavigationProperty Name="Paciente" Relationship="clinicaModel.FK_Agendamento_Paciente" FromRole="Agendamento" ToRole="Paciente" />
+          <NavigationProperty Name="Servico" Relationship="clinicaModel.FK_Agendamento_Servico" FromRole="Agendamento" ToRole="Servico" />
+        </EntityType>
+        <EntityType Name="Cargo">
+          <Key>
+            <PropertyRef Name="ID_CARGO" />
+          </Key>
+          <Property Name="ID_CARGO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VL_SALARIO" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="FL_DENTISTA" Type="Boolean" Nullable="false" />
+          <Property Name="ID_ESPECIALIZACAO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Especializacao" Relationship="clinicaModel.FK_Cargo_Especializacao" FromRole="Cargo" ToRole="Especializacao" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Funcionario" Relationship="clinicaModel.FK_Funcionario_Cargo" FromRole="Cargo" ToRole="Funcionario" />
+        </EntityType>
+        <EntityType Name="Convenio">
+          <Key>
+            <PropertyRef Name="ID_CONVENIO" />
+          </Key>
+          <Property Name="ID_CONVENIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CONVENIO1" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR_DESCONTO" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <NavigationProperty Name="Paciente" Relationship="clinicaModel.FK_Paciente_Convenio" FromRole="Convenio" ToRole="Paciente" />
+        </EntityType>
+        <EntityType Name="Especializacao">
+          <Key>
+            <PropertyRef Name="ID_ESPECIALIZACAO" />
+          </Key>
+          <Property Name="ID_ESPECIALIZACAO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ESPECIALIZACAO1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cargo" Relationship="clinicaModel.FK_Cargo_Especializacao" FromRole="Especializacao" ToRole="Cargo" />
+          <NavigationProperty Name="Servico" Relationship="clinicaModel.FK_SERVICO_ESPECIALIZACAO" FromRole="Especializacao" ToRole="Servico" />
+        </EntityType>
+        <EntityType Name="Funcionario">
+          <Key>
+            <PropertyRef Name="ID_FUNCIONARIO" />
+          </Key>
+          <Property Name="ID_FUNCIONARIO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ID_CARGO" Type="Int32" Nullable="false" />
+          <Property Name="CPF" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CRO" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="SEXO" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Agendamento" Relationship="clinicaModel.FK_Agendamento_Funcionario" FromRole="Funcionario" ToRole="Agendamento" />
+          <NavigationProperty Name="Cargo" Relationship="clinicaModel.FK_Funcionario_Cargo" FromRole="Funcionario" ToRole="Cargo" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="ID_PACIENTE" />
+          </Key>
+          <Property Name="ID_PACIENTE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NOME" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CPF" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="NOME_MAE" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NOME_PAI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IDADE" Type="Int32" Nullable="false" />
+          <Property Name="GENERO" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ID_CONVENIO" Type="Int32" />
+          <NavigationProperty Name="Agendamento" Relationship="clinicaModel.FK_Agendamento_Paciente" FromRole="Paciente" ToRole="Agendamento" />
+          <NavigationProperty Name="Convenio" Relationship="clinicaModel.FK_Paciente_Convenio" FromRole="Paciente" ToRole="Convenio" />
+        </EntityType>
+        <EntityType Name="Servico">
+          <Key>
+            <PropertyRef Name="ID_SERVICO" />
+          </Key>
+          <Property Name="ID_SERVICO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SERVICO1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ID_ESPECIALIZACAO" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Agendamento" Relationship="clinicaModel.FK_Agendamento_Servico" FromRole="Servico" ToRole="Agendamento" />
+          <NavigationProperty Name="Especializacao" Relationship="clinicaModel.FK_SERVICO_ESPECIALIZACAO" FromRole="Servico" ToRole="Especializacao" />
+        </EntityType>
+        <Association Name="FK_Agendamento_Funcionario">
+          <End Type="clinicaModel.Funcionario" Role="Funcionario" Multiplicity="0..1" />
+          <End Type="clinicaModel.Agendamento" Role="Agendamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Funcionario">
+              <PropertyRef Name="ID_FUNCIONARIO" />
+            </Principal>
+            <Dependent Role="Agendamento">
+              <PropertyRef Name="ID_FUNCIONARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agendamento_Paciente">
+          <End Type="clinicaModel.Paciente" Role="Paciente" Multiplicity="0..1" />
+          <End Type="clinicaModel.Agendamento" Role="Agendamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="ID_PACIENTE" />
+            </Principal>
+            <Dependent Role="Agendamento">
+              <PropertyRef Name="ID_PACIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agendamento_Servico">
+          <End Type="clinicaModel.Servico" Role="Servico" Multiplicity="0..1" />
+          <End Type="clinicaModel.Agendamento" Role="Agendamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servico">
+              <PropertyRef Name="ID_SERVICO" />
+            </Principal>
+            <Dependent Role="Agendamento">
+              <PropertyRef Name="ID_SERVICO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cargo_Especializacao">
+          <End Type="clinicaModel.Especializacao" Role="Especializacao" Multiplicity="1" />
+          <End Type="clinicaModel.Cargo" Role="Cargo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Especializacao">
+              <PropertyRef Name="ID_ESPECIALIZACAO" />
+            </Principal>
+            <Dependent Role="Cargo">
+              <PropertyRef Name="ID_ESPECIALIZACAO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paciente_Convenio">
+          <End Type="clinicaModel.Convenio" Role="Convenio" Multiplicity="0..1" />
+          <End Type="clinicaModel.Paciente" Role="Paciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Convenio">
+              <PropertyRef Name="ID_CONVENIO" />
+            </Principal>
+            <Dependent Role="Paciente">
+              <PropertyRef Name="ID_CONVENIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SERVICO_ESPECIALIZACAO">
+          <End Type="clinicaModel.Especializacao" Role="Especializacao" Multiplicity="1" />
+          <End Type="clinicaModel.Servico" Role="Servico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Especializacao">
+              <PropertyRef Name="ID_ESPECIALIZACAO" />
+            </Principal>
+            <Dependent Role="Servico">
+              <PropertyRef Name="ID_ESPECIALIZACAO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Funcionario_Cargo">
+          <End Type="clinicaModel.Cargo" Role="Cargo" Multiplicity="1" />
+          <End Type="clinicaModel.Funcionario" Role="Funcionario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cargo">
+              <PropertyRef Name="ID_CARGO" />
+            </Principal>
+            <Dependent Role="Funcionario">
+              <PropertyRef Name="ID_CARGO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -59,6 +454,85 @@
                 <ScalarProperty Name="UserADD" ColumnName="UserADD" />
                 <ScalarProperty Name="DateDelete" ColumnName="DateDelete" />
                 <ScalarProperty Name="UserDelete" ColumnName="UserDelete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Agendamento">
+            <EntityTypeMapping TypeName="clinicaModel.Agendamento">
+              <MappingFragment StoreEntitySet="Agendamento">
+                <ScalarProperty Name="ID_FUNCIONARIO" ColumnName="ID_FUNCIONARIO" />
+                <ScalarProperty Name="ID_SERVICO" ColumnName="ID_SERVICO" />
+                <ScalarProperty Name="ID_PACIENTE" ColumnName="ID_PACIENTE" />
+                <ScalarProperty Name="VL_ATENDIMENTO" ColumnName="VL_ATENDIMENTO" />
+                <ScalarProperty Name="MOTIVO_CANCELAMENTO" ColumnName="MOTIVO_CANCELAMENTO" />
+                <ScalarProperty Name="FL_CANCELADO" ColumnName="FL_CANCELADO" />
+                <ScalarProperty Name="DT_INCLUSAO" ColumnName="DT_INCLUSAO" />
+                <ScalarProperty Name="DT_HORA_ATENDIMENTO" ColumnName="DT_HORA_ATENDIMENTO" />
+                <ScalarProperty Name="ID_AGENDAMENTO" ColumnName="ID_AGENDAMENTO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cargo">
+            <EntityTypeMapping TypeName="clinicaModel.Cargo">
+              <MappingFragment StoreEntitySet="Cargo">
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ID_ESPECIALIZACAO" ColumnName="ID_ESPECIALIZACAO" />
+                <ScalarProperty Name="FL_DENTISTA" ColumnName="FL_DENTISTA" />
+                <ScalarProperty Name="VL_SALARIO" ColumnName="VL_SALARIO" />
+                <ScalarProperty Name="ID_CARGO" ColumnName="ID_CARGO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Convenio">
+            <EntityTypeMapping TypeName="clinicaModel.Convenio">
+              <MappingFragment StoreEntitySet="Convenio">
+                <ScalarProperty Name="VALOR_DESCONTO" ColumnName="VALOR_DESCONTO" />
+                <ScalarProperty Name="CONVENIO1" ColumnName="CONVENIO" />
+                <ScalarProperty Name="ID_CONVENIO" ColumnName="ID_CONVENIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Especializacao">
+            <EntityTypeMapping TypeName="clinicaModel.Especializacao">
+              <MappingFragment StoreEntitySet="Especializacao">
+                <ScalarProperty Name="ESPECIALIZACAO1" ColumnName="ESPECIALIZACAO" />
+                <ScalarProperty Name="ID_ESPECIALIZACAO" ColumnName="ID_ESPECIALIZACAO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Funcionario">
+            <EntityTypeMapping TypeName="clinicaModel.Funcionario">
+              <MappingFragment StoreEntitySet="Funcionario">
+                <ScalarProperty Name="SEXO" ColumnName="SEXO" />
+                <ScalarProperty Name="CRO" ColumnName="CRO" />
+                <ScalarProperty Name="CPF" ColumnName="CPF" />
+                <ScalarProperty Name="ID_CARGO" ColumnName="ID_CARGO" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ID_FUNCIONARIO" ColumnName="ID_FUNCIONARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paciente">
+            <EntityTypeMapping TypeName="clinicaModel.Paciente">
+              <MappingFragment StoreEntitySet="Paciente">
+                <ScalarProperty Name="ID_CONVENIO" ColumnName="ID_CONVENIO" />
+                <ScalarProperty Name="GENERO" ColumnName="GENERO" />
+                <ScalarProperty Name="IDADE" ColumnName="IDADE" />
+                <ScalarProperty Name="NOME_PAI" ColumnName="NOME_PAI" />
+                <ScalarProperty Name="NOME_MAE" ColumnName="NOME_MAE" />
+                <ScalarProperty Name="CPF" ColumnName="CPF" />
+                <ScalarProperty Name="NOME" ColumnName="NOME" />
+                <ScalarProperty Name="ID_PACIENTE" ColumnName="ID_PACIENTE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Servico">
+            <EntityTypeMapping TypeName="clinicaModel.Servico">
+              <MappingFragment StoreEntitySet="Servico">
+                <ScalarProperty Name="ID_ESPECIALIZACAO" ColumnName="ID_ESPECIALIZACAO" />
+                <ScalarProperty Name="VALOR" ColumnName="VALOR" />
+                <ScalarProperty Name="SERVICO1" ColumnName="SERVICO" />
+                <ScalarProperty Name="ID_SERVICO" ColumnName="ID_SERVICO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
